@@ -1,3 +1,15 @@
+/.serverless
+/.classpath
+/.project
+/.settings
+/logback-test.xml
+/.DS_Store
+/bin/
+/testfiles/
+/staging/
+/deploy/
+/logs/
+
 # Compiled class file
 *.class
 
