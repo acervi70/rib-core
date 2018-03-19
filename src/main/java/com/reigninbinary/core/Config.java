@@ -72,10 +72,10 @@ public class Config {
 	private static String getProperty(String propertyName, String defaultValue) {
 		
 		String propertyValue = properties.getProperty(propertyName);
-		if (propertyValue != null) {
-			return propertyValue;
+		if (propertyValue == null) {
+			propertyValue = defaultValue;
 		}		
-		return defaultValue;
+		return propertyValue;
 	}
 		
 	private static int getProperty(String propertyName, int defaultValue) {
