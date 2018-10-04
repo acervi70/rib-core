@@ -1,10 +1,14 @@
-package com.reigninbinary.core;
+package com.reigninbinary.core.util;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class Config {
+// config file params can be overriden with environment variables of the same name.
+// this code checks for the config param name in the system environment first and
+// returns the config file value only if the environment variable does not exist.
+
+public class CoreConfig {
 
 	private static final String CONFIG_FILE_ENVPARAM = "CONFIG_FILE";
 	private static final String CONFIG_FILE_DEFAULT = "config.properties";
@@ -20,23 +24,23 @@ public class Config {
 		InputStream inputStream = null;
 		try {
 
-			inputStream = Config.class.getClassLoader().getResourceAsStream(configFile);
+			inputStream = CoreConfig.class.getClassLoader().getResourceAsStream(configFile);
 			if (inputStream == null) {
 		        throw new Exception(String.format(NOFILE_ERROR, configFile));
 			}
 			properties.load(inputStream);
 		}
 		catch (Exception e) {
-			System.err.println(e.getMessage());
-			e.printStackTrace();
+			final String ERRFMT = "config file '%s' is missing. if no config file required then ignore this msg.";
+			CoreLogging.logSevere(String.format(ERRFMT, configFile), e);
 		}
 		finally {
 			if (inputStream != null) {
 				try {
 					inputStream.close();
 				} catch (IOException e) {
-					System.err.println(e.getMessage());
-					e.printStackTrace();
+					final String ERRFMT = "unable to close input stream for config file '%s'"; 
+					CoreLogging.logSevere(String.format(ERRFMT, configFile), e);
 				}
 			}
 		}
@@ -69,6 +73,11 @@ public class Config {
 		return Boolean.parseBoolean(paramValue);
 	}
 	
+	private static String getSystemEnvParam(String paramName) {
+		
+		return System.getenv(paramName);
+	}
+
 	private static String getProperty(String propertyName, String defaultValue) {
 		
 		String propertyValue = properties.getProperty(propertyName);
@@ -94,11 +103,6 @@ public class Config {
 			return Boolean.parseBoolean(propertyValue);
 		}		
 		return defaultValue;
-	}
-		
-	private static String getSystemEnvParam(String paramName) {
-		
-		return System.getenv(paramName);
 	}
 	
 	private static String getConfigFilename() {
