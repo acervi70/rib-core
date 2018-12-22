@@ -34,7 +34,8 @@ public class CoreConfig {
 			if (inputStream != null) {
 				try {
 					inputStream.close();
-				} catch (IOException e) {
+				} 
+				catch (IOException e) {
 					final String ERRFMT = "unable to close input stream for config file '%s'"; 
 					CoreLogging.logSevere(String.format(ERRFMT, configFile), e);
 				}

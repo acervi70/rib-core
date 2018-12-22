@@ -1,5 +1,6 @@
 package com.reigninbinary.core;
 
+
 public class CoreException extends Exception {
 
 	/**

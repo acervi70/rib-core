@@ -3,6 +3,7 @@ package com.reigninbinary.core;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 public class CoreLogging {
 
 	private static final Logger logger = Logger.getLogger(CoreLogging.class.getName());
